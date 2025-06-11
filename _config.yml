@@ -19,7 +19,7 @@ timezone: ''    # 网站时区。Hexo 默认使用您电脑的时区。
 
 # URL
 ## 在此处设置您网站的网址。例如，如果您使用 GitHub Page，则设置为 'https://username.github.io/project'
-url: https://blog.kabaka.xyz # 网址
+url: https://kabaka9527.github.io # 网址
 permalink: posts/:abbrlink/ # 文章的永久链接格式
 permalink_defaults:         # 永久链接的默认值
 pretty_urls:
