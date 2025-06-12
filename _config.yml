@@ -117,3 +117,4 @@ nofollow:
   enable: true # 是否为外部链接添加 rel="nofollow"
   exclude:     # 不添加 nofollow 的域名列表
     - blog.kabaka.xyz  # 排除自身域名或友链
+all_minifier: true

@@ -11,7 +11,7 @@
 
 nav:
   # 导航栏标志图片
-  logo: /img/dh_logo.ico
+  logo: /img/dh_logo.webp
   display_title: true
   # 是否固定导航栏
   fixed: false
@@ -331,8 +331,8 @@ footer:
     </style>
     <div class="footer">
       <!-- 以下社交链接的 HTML div 已移除 -->
+      <p class="tagline">&gt;清者自清&lt;</p>
       <p class="copyright">© 2025 kabakaのblog - 所有权利保留</p>
-      <p class="tagline">>清者自清<</p>
       <p class="visitor-count">总访客: <span id="totalVisitors">1024</span> | 总浏览: <span id="totalPageViews">1520</span> | 今日访客: <span id="dailyVisitor">1</span></p>
       <p class="icp-info"><a href="https://icp.gov.moe/?keyword=20255531" target="_blank">萌ICP备20255531号</a></p>
     </div>
@@ -636,7 +636,7 @@ comments:
   text: true
   # 懒加载: 当评论元素进入浏览器视口时将加载评论系统。
   # 如果设置为true，评论计数将无效
-  lazyload: false
+  lazyload: true
   # 在文章的top_img中显示评论计数
   count: false
   # 在首页显示评论计数
@@ -861,7 +861,7 @@ theme_color:
   toc_color: "#4CAF50"       # 目录文字色 - 自然绿（文章目录文字颜色）
   blockquote_padding_color: "#A0522D" # 引用框边框色 - 赤陶棕（引用框左侧边框色）
   blockquote_background_color: "rgba(222, 184, 135, 0.15)" # 引用框背景 - 浅土色底（引用框背景色）
-  scrollbar_color: "#556B2F" # 滚动条颜色 - 暗橄榄绿（页面滚动条颜色）
+  scrollbar_color: "#4CAF50" # 滚动条颜色 - 自然绿（页面滚动条颜色）
   meta_theme_color_light: "#F0FFF0" # 浅色模式主题色 - 晨雾绿（浏览器主题色-浅色模式）
   meta_theme_color_dark: "#1A4314"  # 深色模式主题色 - 深夜森林绿（浏览器主题色-深色模式）
 
@@ -1102,7 +1102,7 @@ instantpage: false
 # 懒加载
 # https://github.com/verlok/vanilla-lazyload
 lazyload:
-  enable: false
+  enable: true
   # 指定使用懒加载的字段 (site 或 post)
   field: site
   placeholder:
