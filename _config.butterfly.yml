@@ -47,8 +47,7 @@ code_blocks:
 # 格式:
 #   icon: link || 描述 || 颜色
 social:
-  # fab fa-github: https://github.com/xxxxx || Github || '#24292e'
-  # fas fa-envelope: mailto:xxxxxx@gmail.com || Email || '#4a7dbe'
+  fab fa-bilibili: https://space.bilibili.com/1005290488 || Bilibili
 
 # --------------------------------------
 # 图片设置
@@ -57,7 +56,7 @@ social:
 favicon: /img/dh_logo.ico
 
 avatar:
-  img: /img/bkico-modified.png
+  img: /img/bkico-modified.webp
   effect: false
 
 # 禁用所有横幅图片
@@ -67,7 +66,7 @@ disable_top_img: false
 default_top_img: https://api.imlazy.ink/img
 
 # 首页的横幅图片
-index_img: /img/sybz.png
+index_img: /img/sybz.webp
 
 # 归档页面的横幅图片
 archive_img:
@@ -93,7 +92,7 @@ footer_img:  rgba(0,0,0,0)
 
 # 网站背景
 # 可以设置为颜色或图片url
-background: /img/sybz.png
+background: /img/sybz.webp
 
 cover:
   # 是否禁用封面
@@ -265,78 +264,73 @@ footer:
         text-align: center;
         position: relative;
       }
-      .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 1.5rem;
-        flex-wrap: wrap;
-      }
-      .social-link {
-        color: #32CD32;
-        font-size: 1.2rem;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        background: rgba(50, 205, 50, 0.1);
-      }
-      .social-link:hover {
-        color: rgba(50, 205, 50, 0.8);
-        background: rgba(50, 205, 50, 0.8);
-        transform: translateY(-3px) scale(1.2);
-        box-shadow: 0 5px 15px rgba(50, 205, 50, 0.4);
-        text-decoration: none !important;
-      }
+      /* 以下 .social-links 和 .social-link 相关 CSS 已移除，因为图标已移至侧边栏 */
       .footer p {
         margin: 0.5rem 0;
-        line-height: 1;
+        line-height: 1.6; /* 增加行高以提高可读性 */
       }
       .copyright {
         font-size: 1.1rem;
-        color: #32CD32;
-        font-weight: 400;
+        color: #333333; /* 深灰色，增强对比度 */
+        font-weight: 600;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* 调整阴影 */
       }
       .tagline {
-        font-size: 0.8rem;
-        color: #32CD32;
+        font-size: 0.85rem;
+        color: #4a4a4a; /* 中深灰色 */
         font-style: italic;
-        font-weight: 500;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* 调整阴影 */
       }
       .visitor-count {
-        font-size: 0.75rem;
-        color: rgba(50, 205, 50, 0.8);
-        font-weight: 300;
+        font-size: 0.8rem;
+        color: #555555; /* 中灰色 */
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* 调整阴影 */
       }
       .icp-info {
-        font-size: 0.75rem;
-        color: rgba(50, 205, 50, 0.8);
-        font-weight: 300;
+        font-size: 0.8rem;
+        color: #555555; /* 中灰色 */
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* 调整阴影 */
       }
       .icp-info a {
-        color: rgba(50, 205, 50, 0.8);
-        text-decoration: none;
+        color: #0056b3; /* 标准链接蓝色 */
+        text-decoration: underline; /* 添加下划线以提高可访问性 */
         transition: all 0.3s ease;
+        text-shadow: none; /* 移除带下划线链接的阴影 */
       }
       .icp-info a:hover {
-        color: #32CD32;
+        color: #007bff; /* 悬停时使用更亮的蓝色 */
         text-decoration: underline;
       }
       #totalVisitors, #totalPageViews, #dailyVisitor {
         font-weight: bold;
+        color: #28a745; /* 更易读的深绿色 */
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25); /* 调整阴影 */
+      }
+
+      /* “Follow Me”按钮样式增强对比度 */
+      #card-info-btn {
+        background-color: #2E8B57; /* 使用主题主色调作为背景 */
+        color: #FFFFFF !important; /* 白色文字，确保高对比度 */
+        padding: 8px 15px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+        border: 1px solid transparent;
+      }
+
+      #card-info-btn:hover {
+        background-color: #20663F; /* 主题按钮悬停色 */
+        color: #FFFFFF !important;
+        text-decoration: none;
       }
     </style>
     <div class="footer">
-      <div class="social-links">
-        <a href="https://github.com/kabaka9527" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
-          <i class="fab fa-github"></i>
-        </a>
-        <a href="https://space.bilibili.com/1005290488" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="bilibili" title="bilibili">
-          <i class="fab fa-bilibili"></i>
-        </a>
-      </div>
+      <!-- 以下社交链接的 HTML div 已移除 -->
       <p class="copyright">© 2025 kabakaのblog - 所有权利保留</p>
       <p class="tagline">>清者自清<</p>
       <p class="visitor-count">总访客: <span id="totalVisitors">1024</span> | 总浏览: <span id="totalPageViews">1520</span> | 今日访客: <span id="dailyVisitor">1</span></p>
@@ -374,16 +368,7 @@ footer:
 
         updateLocalStats();
 
-        // 社交链接动画
-        const socialLinks = document.querySelectorAll('.social-link');
-        socialLinks.forEach(link => {
-          link.addEventListener('click', function() {
-            this.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-              this.style.transform = '';
-            }, 300);
-          });
-        });
+        // 以下社交链接动画的 JavaScript 已移除
       });
     </script>
   copyright: false  # 是否显示主题和框架版权信息
@@ -406,7 +391,7 @@ aside:
     category: true
   card_author:
     enable: true
-    description:
+    description: 生活随笔 # 设置博主描述
     button:
       enable: true
       icon: fab fa-github
