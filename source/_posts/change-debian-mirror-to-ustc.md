@@ -22,21 +22,21 @@ Debian 是一个流行的 Linux 发行版，其软件包默认从官方源下载
 
 在进行任何更改之前，建议先备份原有的源配置文件：
 ```bash
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak                                                                                                                                                                                                                  
 ```
 
 ### 编辑源列表文件
 
 使用你喜欢的文本编辑器打开 `/etc/apt/sources.list` 文件。这里以 `nano` 为例：
 ```bash
-sudo nano /etc/apt/sources.list
+sudo nano /etc/apt/sources.list  
 ```
 
 ### 替换为中科大源
 
 将文件中的内容替换为以下中科大提供的 Debian 镜像源配置：
 ```bash
-# USTC Mirror for Debian
+# USTC Mirror for Debian  
 ```
 
 
