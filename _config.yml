@@ -15,7 +15,7 @@ keywords:
   - Hexo
 author: kabaka
 language: zh-CN # 网站语言
-timezone: ''    # 网站时区。Hexo 默认使用您电脑的时区。
+timezone: 'Asia/Shanghai'    # 网站时区。Hexo 默认使用您电脑的时区。
 
 # URL
 ## 在此处设置您网站的网址。例如，如果您使用 GitHub Page，则设置为 'https://username.github.io/project'
@@ -118,3 +118,10 @@ nofollow:
   exclude:     # 不添加 nofollow 的域名列表
     - blog.kabaka.xyz  # 排除自身域名或友链
 all_minifier: true
+
+# Sitemap 配置
+sitemap:
+  path: sitemap.xml
+  rel: false
+  tags: true
+  categories: true
