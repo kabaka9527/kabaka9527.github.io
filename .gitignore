@@ -25,3 +25,4 @@ themes/butterfly/.github/
 # Add below lines to exclude OS settings and caches
 .trash/
 .DS_Store
+themes/hexo-theme-Klise-enhanced
