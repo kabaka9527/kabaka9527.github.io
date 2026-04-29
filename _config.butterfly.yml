@@ -332,7 +332,7 @@ footer:
     <div class="footer">
       <!-- 以下社交链接的 HTML div 已移除 -->
       <p class="tagline">&gt;清者自清&lt;</p>
-      <p class="copyright">© 2025 kabakaのblog - 所有权利保留</p>
+      <p class="copyright">© 2021 kabakaのblog - 所有权利保留</p>
       <p class="visitor-count">总访客: <span id="totalVisitors">1024</span> | 总浏览: <span id="totalPageViews">1520</span> | 今日访客: <span id="dailyVisitor">1</span></p>
       <p class="icp-info"><a href="https://icp.gov.moe/?keyword=20255531" target="_blank">萌ICP备20255531号</a></p>
     </div>
