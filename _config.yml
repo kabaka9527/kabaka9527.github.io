@@ -99,6 +99,7 @@ pagination_dir: page # 分页目录
 # 包含/排除文件
 ## include:/exclude: 选项仅适用于 'source/' 文件夹
 include:
+  - .well-known
 exclude:
 ignore:
 
