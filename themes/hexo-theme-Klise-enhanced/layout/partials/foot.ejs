@@ -1,0 +1,99 @@
+<footer class="footer">
+  <style>
+    .footer-custom {
+      text-align: center;
+      position: relative;
+    }
+    .footer-custom p {
+      margin: 0.5rem 0;
+      line-height: 1.6;
+    }
+    .footer-custom .copyright {
+      font-size: 1.1rem;
+      color: #333333;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    .footer-custom .tagline {
+      font-size: 0.85rem;
+      color: #4a4a4a;
+      font-style: italic;
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    .footer-custom .visitor-count,
+    .footer-custom .icp-info {
+      font-size: 0.8rem;
+      color: #555555;
+      font-weight: 500;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    .footer-custom .icp-info a {
+      color: #0056b3;
+      text-decoration: underline;
+      transition: all 0.3s ease;
+      text-shadow: none;
+    }
+    .footer-custom .icp-info a:hover {
+      color: #007bff;
+      text-decoration: underline;
+    }
+    #totalVisitors,
+    #totalPageViews,
+    #dailyVisitor {
+      font-weight: bold;
+      color: #28a745;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    }
+  </style>
+
+  <script defer src="https://events.vercount.one/js"></script>
+  
+  <div class="footer-custom">
+    <p class="copyright">© 2021 <%= config.author %>のblog - 所有权利保留</p>
+    <p class="visitor-count">
+      页面访问量 <span id="vercount_value_page_pv">Loading</span>
+    </p>
+    <p class="visitor-count">
+      站点总访问量 <span id="vercount_value_site_pv">Loading</span>
+    </p>
+    <p class="visitor-count">
+      站点总访客数 <span id="vercount_value_site_uv">Loading</span>
+    </p>
+    <p class="icp-info"><a href="https://icp.gov.moe/?keyword=20255531" target="_blank">萌ICP备20255531号</a></p>
+  </div>
+</footer>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    function updateLocalStats() {
+      let totalUV = parseInt(localStorage.getItem('localTotalVisitors') || '1024');
+      if (localStorage.getItem('localVisitedBefore') !== 'true') {
+        totalUV += 1;
+        localStorage.setItem('localTotalVisitors', totalUV.toString());
+        localStorage.setItem('localVisitedBefore', 'true');
+      }
+      document.getElementById('totalVisitors').textContent = totalUV;
+
+      let totalPV = parseInt(localStorage.getItem('localTotalPageViews') || '1520');
+      totalPV += 1;
+      localStorage.setItem('localTotalPageViews', totalPV.toString());
+      document.getElementById('totalPageViews').textContent = totalPV;
+
+      const today = new Date().toDateString();
+      const dailyData = JSON.parse(localStorage.getItem('localDailyVisitors') || '{"date":"", "count":0}');
+      if (dailyData.date !== today) {
+        dailyData.date = today;
+        dailyData.count = 0;
+      }
+      dailyData.count += 1;
+      document.getElementById('dailyVisitor').textContent = dailyData.count;
+      localStorage.setItem('localDailyVisitors', JSON.stringify(dailyData));
+    }
+
+    updateLocalStats();
+  });
+</script>
+
+<%- partial('partials/scripts') %>

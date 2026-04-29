@@ -1,0 +1,31 @@
+
+  <% const avatarSrc = theme.avatar || '/img/mikasa-ackerman-snk.gif'; %>
+  <div class="wrapper">
+    <div class="author">
+        <div class="author-avatar-wrapper">
+          <img
+            class="author-avatar"
+            src="<%= avatarSrc %>"
+            alt="<%= config.author %>"
+            loading="lazy"
+          />
+      </div>
+      <h2 class="author-name"><%=config.author%></h2>
+      <p class="author-bio"><%=theme.bio%></p>
+      <p class="author-hitokoto">
+        <span id="hitokoto-text" class="hitokoto-text"></span>
+        <span id="hitokoto-from" class="hitokoto-from"></span>
+      </p>
+    </div>
+    
+    <main aria-label="Content">
+      <%-partial('partials/recent-posts')%>
+      <nav class="pagination">
+        <%- paginator({
+          prev_text: '上一页',  // 上一页按钮文字
+          next_text: '下一页'   // 下一页按钮文字
+        }) %>
+      </nav>
+      
+    </main>
+  </div>
