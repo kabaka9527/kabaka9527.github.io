@@ -120,7 +120,7 @@ nofollow:
 all_minifier: true
 # 关闭图片压缩以加快本地开发（需要发布时可再启用）
 image_minifier:
-  enable: false
+  enable: true
 
 # Sitemap 配置
 sitemap:
