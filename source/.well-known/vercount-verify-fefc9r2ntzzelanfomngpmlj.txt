@@ -1,1 +1,1 @@
-vercount-domain-verify= blog.kabaka.xyz , fefc9r2ntzzelanfomngpmlj
+vercount-domain-verify=blog.kabaka.xyz,fefc9r2ntzzelanfomngpmlj
