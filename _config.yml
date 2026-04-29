@@ -38,6 +38,7 @@ category_dir: categories # 分类目录
 code_dir: downloads/code # 代码下载目录
 i18n_dir: :lang       # 国际化 (i18n) 目录
 skip_render:          # 跳过渲染的文件或文件夹路径。支持通配符。
+  - .well-known/**
 
 # 写作
 new_post_name: :title.md # 新文章的文件名格式
@@ -99,7 +100,7 @@ pagination_dir: page # 分页目录
 # 包含/排除文件
 ## include:/exclude: 选项仅适用于 'source/' 文件夹
 include:
-  - .well-known
+  - .well-known/**
 exclude:
 ignore:
 
