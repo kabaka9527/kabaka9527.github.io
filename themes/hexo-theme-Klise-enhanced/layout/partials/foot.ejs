@@ -74,12 +74,14 @@
         localStorage.setItem('localTotalVisitors', totalUV.toString());
         localStorage.setItem('localVisitedBefore', 'true');
       }
-      document.getElementById('totalVisitors').textContent = totalUV;
+      var elTotalVisitors = document.getElementById('totalVisitors');
+      if (elTotalVisitors) elTotalVisitors.textContent = totalUV;
 
       let totalPV = parseInt(localStorage.getItem('localTotalPageViews') || '1520');
       totalPV += 1;
       localStorage.setItem('localTotalPageViews', totalPV.toString());
-      document.getElementById('totalPageViews').textContent = totalPV;
+      var elTotalPageViews = document.getElementById('totalPageViews');
+      if (elTotalPageViews) elTotalPageViews.textContent = totalPV;
 
       const today = new Date().toDateString();
       const dailyData = JSON.parse(localStorage.getItem('localDailyVisitors') || '{"date":"", "count":0}');
@@ -88,7 +90,8 @@
         dailyData.count = 0;
       }
       dailyData.count += 1;
-      document.getElementById('dailyVisitor').textContent = dailyData.count;
+      var elDailyVisitor = document.getElementById('dailyVisitor');
+      if (elDailyVisitor) elDailyVisitor.textContent = dailyData.count;
       localStorage.setItem('localDailyVisitors', JSON.stringify(dailyData));
     }
 

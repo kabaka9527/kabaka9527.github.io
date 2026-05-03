@@ -21,17 +21,19 @@
         <% images.forEach(function(image, index) { 
           const imageUrl = url_for('/img/gallery/' + encodeURIComponent(image.name));
         %>
-          <a
+          <div
             class="gallery-card"
-            href="<%= imageUrl %>"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="<%= image.stem %>"
+            data-index="<%= index %>"
+            data-src="<%= imageUrl %>"
+            data-alt="<%= image.stem %>"
+            role="button"
+            tabindex="0"
+            aria-label="查看大图：<%= image.stem %>"
           >
             <span class="gallery-card__index"><%= String(index + 1).padStart(2, '0') %></span>
-            <img class="gallery-card__img" src="<%= imageUrl %>" alt="<%= image.stem %>" loading="lazy">
+            <img class="gallery-card__img" src="<%= imageUrl %>" alt="<%= image.stem %>" loading="lazy" decoding="async">
             <span class="gallery-card__caption"><%= image.stem %></span>
-          </a>
+          </div>
         <% }); %>
       </section>
     <% } else { %>
@@ -41,4 +43,102 @@
       </div>
     <% } %>
   </main>
+
+  <div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-label="图片预览">
+    <div class="gallery-lightbox__overlay"></div>
+    <div class="gallery-lightbox__content">
+      <button class="gallery-lightbox__close" aria-label="关闭">&times;</button>
+      <button class="gallery-lightbox__prev" aria-label="上一张">&#8249;</button>
+      <button class="gallery-lightbox__next" aria-label="下一张">&#8250;</button>
+      <img class="gallery-lightbox__img" src="" alt="">
+      <div class="gallery-lightbox__counter"></div>
+    </div>
+  </div>
 </div>
+
+<script>
+(function () {
+  /** 初始化相册灯箱交互逻辑 */
+  var lightbox = document.getElementById('galleryLightbox');
+  if (!lightbox) return;
+
+  var lbImg = lightbox.querySelector('.gallery-lightbox__img');
+  var lbCounter = lightbox.querySelector('.gallery-lightbox__counter');
+  var btnClose = lightbox.querySelector('.gallery-lightbox__close');
+  var btnPrev = lightbox.querySelector('.gallery-lightbox__prev');
+  var btnNext = lightbox.querySelector('.gallery-lightbox__next');
+  var overlay = lightbox.querySelector('.gallery-lightbox__overlay');
+
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.gallery-card'));
+  var total = cards.length;
+  var currentIndex = 0;
+
+  /** 显示指定索引的图片 */
+  function showImage(index) {
+    if (index < 0 || index >= total) return;
+    currentIndex = index;
+    var card = cards[currentIndex];
+    lbImg.src = card.getAttribute('data-src');
+    lbImg.alt = card.getAttribute('data-alt');
+    lbCounter.textContent = (currentIndex + 1) + ' / ' + total;
+  }
+
+  /** 打开灯箱 */
+  function openLightbox(index) {
+    showImage(index);
+    lightbox.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /** 关闭灯箱 */
+  function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  /** 切换到上一张 */
+  function prevImage() {
+    if (currentIndex > 0) {
+      showImage(currentIndex - 1);
+    } else {
+      showImage(total - 1);
+    }
+  }
+
+  /** 切换到下一张 */
+  function nextImage() {
+    if (currentIndex < total - 1) {
+      showImage(currentIndex + 1);
+    } else {
+      showImage(0);
+    }
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      var idx = parseInt(card.getAttribute('data-index'), 10);
+      openLightbox(idx);
+    });
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        var idx = parseInt(card.getAttribute('data-index'), 10);
+        openLightbox(idx);
+      }
+    });
+  });
+
+  btnClose.addEventListener('click', closeLightbox);
+  overlay.addEventListener('click', closeLightbox);
+  btnPrev.addEventListener('click', prevImage);
+  btnNext.addEventListener('click', nextImage);
+
+  document.addEventListener('keydown', function (e) {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'ArrowRight') nextImage();
+  });
+})();
+</script>

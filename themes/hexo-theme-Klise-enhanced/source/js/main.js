@@ -210,10 +210,12 @@
   };
 
   seedBackgroundIndex();
-  initTheme();
-  syncThemeControls();
-  startBackgroundRotation();
-  scheduleAutoTheme();
+  requestAnimationFrame(() => {
+    initTheme();
+    syncThemeControls();
+    startBackgroundRotation();
+    scheduleAutoTheme();
+  });
 
   if (modeButton) {
     modeButton.addEventListener("click", () =>
@@ -348,7 +350,7 @@
 
   if (toTopBtn) {
     window.addEventListener("scroll", updateToTopVisibility);
-    updateToTopVisibility();
+    requestAnimationFrame(updateToTopVisibility);
     toTopBtn.addEventListener("click", function() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
