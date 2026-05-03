@@ -10,6 +10,7 @@ menu:
   Home: / || 主页 
   Tags: /tags/ || 标签 
   categories: /categories/ || 类别
+  Gallery: /gallery/ || 相册墙
   Archives: /archives/ || 档案馆
   About: /about/ || 关于
 # pagename: /dir/ || 在博客菜单栏显示的名称

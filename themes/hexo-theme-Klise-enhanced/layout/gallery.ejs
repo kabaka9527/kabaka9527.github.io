@@ -1,0 +1,44 @@
+<%
+  const images = typeof getGalleryImages === 'function' ? getGalleryImages() : [];
+%>
+
+<div class="wrapper gallery-page">
+  <header class="header">
+    <h1 class="header-title center"><%= page.title %></h1>
+    <% if (page.content && page.content.trim()) { %>
+      <div class="gallery-intro">
+        <%- page.content %>
+      </div>
+    <% } %>
+  </header>
+
+  <main class="page-content gallery-content" aria-label="Gallery">
+    <% if (images.length) { %>
+      <p class="gallery-meta">
+        共 <%= images.length %> 张图片，自动读取自 <code>source/img/gallery/</code>
+      </p>
+      <section class="gallery-grid" aria-label="<%= page.title %>">
+        <% images.forEach(function(image, index) { 
+          const imageUrl = url_for('/img/gallery/' + encodeURIComponent(image.name));
+        %>
+          <a
+            class="gallery-card"
+            href="<%= imageUrl %>"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="<%= image.stem %>"
+          >
+            <span class="gallery-card__index"><%= String(index + 1).padStart(2, '0') %></span>
+            <img class="gallery-card__img" src="<%= imageUrl %>" alt="<%= image.stem %>" loading="lazy">
+            <span class="gallery-card__caption"><%= image.stem %></span>
+          </a>
+        <% }); %>
+      </section>
+    <% } else { %>
+      <div class="gallery-empty">
+        <p>相册目录里还没有图片。</p>
+        <p>把照片放进 <code>source/img/gallery/</code> 后，这里会自动生成相册墙。</p>
+      </div>
+    <% } %>
+  </main>
+</div>

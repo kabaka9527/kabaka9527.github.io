@@ -3,7 +3,9 @@
   
   // Theme switch
   const body = document.body;
-  const lamp = document.getElementById("mode");
+  const modeButton = document.getElementById("mode");
+  const autoButton = document.getElementById("theme-auto");
+  const THEME_STORAGE_KEY = "theme";
 
   let elem = document.querySelectorAll('figure.highlight')
   elem.forEach(function(item){
@@ -26,6 +28,7 @@
   let lightBgIndex = 0;
   let darkBgIndex = 0;
   let bgTimer = null;
+  let autoThemeTimer = null;
 
   const getStoredBackground = (theme) => {
     const key = BG_STORAGE_KEYS[theme];
@@ -63,6 +66,57 @@
   };
 
   const getThemeMode = () => (body.getAttribute("data-theme") === "dark" ? "dark" : "light");
+
+  const getStoredTheme = () => {
+    try {
+      const saved = localStorage.getItem(THEME_STORAGE_KEY);
+      return saved === "light" || saved === "dark" ? saved : null;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const setStoredTheme = (theme) => {
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch (error) {
+      // Ignore storage errors.
+    }
+  };
+
+  const clearStoredTheme = () => {
+    try {
+      localStorage.removeItem(THEME_STORAGE_KEY);
+    } catch (error) {
+      // Ignore storage errors.
+    }
+  };
+
+  const clearAutoThemeTimer = () => {
+    if (!autoThemeTimer) return;
+    window.clearTimeout(autoThemeTimer);
+    autoThemeTimer = null;
+  };
+
+  const syncThemeControls = () => {
+    const savedTheme = getStoredTheme();
+    const isAutoMode = !savedTheme;
+    body.dataset.themeState = isAutoMode ? "auto" : "manual";
+
+    if (modeButton) {
+      modeButton.classList.toggle("is-active", !isAutoMode);
+      modeButton.setAttribute("aria-pressed", String(!isAutoMode));
+      modeButton.title = isAutoMode
+        ? "切换黑白天"
+        : `当前手动：${savedTheme === "dark" ? "深色" : "浅色"}`;
+    }
+
+    if (autoButton) {
+      autoButton.classList.toggle("is-active", isAutoMode);
+      autoButton.setAttribute("aria-pressed", String(isAutoMode));
+      autoButton.title = isAutoMode ? "当前自动切换" : "恢复自动切换";
+    }
+  };
 
   const getNextBackground = (theme) => {
     const list = theme === "dark" ? DARK_BG_IMAGES : LIGHT_BG_IMAGES;
@@ -115,7 +169,7 @@
   };
 
   const initTheme = () => {
-    const saved = localStorage.getItem("theme");
+    const saved = getStoredTheme();
     if (saved === "light" || saved === "dark") {
       applyTheme(saved);
       return;
@@ -124,8 +178,8 @@
   };
 
   const scheduleAutoTheme = () => {
-    const saved = localStorage.getItem("theme");
-    if (saved === "light" || saved === "dark") return;
+    clearAutoThemeTimer();
+    if (getStoredTheme()) return;
 
     const now = new Date();
     const next = new Date(now);
@@ -133,7 +187,7 @@
     next.setHours(now.getHours() + 1);
     const delay = next.getTime() - now.getTime() + 1000;
 
-    setTimeout(() => {
+    autoThemeTimer = window.setTimeout(() => {
       initTheme();
       scheduleAutoTheme();
     }, delay);
@@ -142,18 +196,34 @@
   const toggleTheme = (state) => {
     const current = state === "light" || state === "dark" ? state : getTimeTheme();
     const next = current === "dark" ? "light" : "dark";
-    localStorage.setItem("theme", next);
+    setStoredTheme(next);
     applyTheme(next);
+    scheduleAutoTheme();
+    syncThemeControls();
+  };
+
+  const enableAutoTheme = () => {
+    clearStoredTheme();
+    initTheme();
+    scheduleAutoTheme();
+    syncThemeControls();
   };
 
   seedBackgroundIndex();
   initTheme();
+  syncThemeControls();
   startBackgroundRotation();
   scheduleAutoTheme();
 
-  lamp.addEventListener("click", () =>
-    toggleTheme(localStorage.getItem("theme"))
-  );
+  if (modeButton) {
+    modeButton.addEventListener("click", () =>
+      toggleTheme(getStoredTheme())
+    );
+  }
+
+  if (autoButton) {
+    autoButton.addEventListener("click", enableAutoTheme);
+  }
 
   const HITOKOTO_TYPES = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
   const HITOKOTO_ENDPOINT = `https://v1.hitokoto.cn/?encode=json&${HITOKOTO_TYPES.map((type) => `c=${type}`).join("&")}`;
@@ -232,51 +302,57 @@
 
   window.addEventListener("beforeunload", () => {
     if (bgTimer) window.clearInterval(bgTimer);
+    clearAutoThemeTimer();
   });
 
   // Blur the content when the menu is open
   const cbox = document.getElementById("menu-trigger");
 
-  cbox.addEventListener("change", function () {
-    const area = document.querySelector(".wrapper");
-    this.checked
-      ? area.classList.add("blurry")
-      : area.classList.remove("blurry");
-  });
-
-  // 获取元素
-const toggleButton = document.getElementById('toggleButton');
-const overlay = document.getElementById('overlay');
-const closeButton = document.getElementById('closeButton');
-
-// 切换显示和隐藏
-toggleButton.addEventListener('click', function() {
-  overlay.style.display = overlay.style.display === 'none' || overlay.style.display === '' ? 'flex' : 'none';
-  toggleButton.style.display = 'none';  // 隐藏返回顶部按钮
-});
-
-// 点击关闭按钮
-closeButton.addEventListener('click', function() {
-  overlay.style.display = 'none';
-  toggleButton.style.display = 'flex';
-  
-});
-
-// 获取按钮
-let toTopBtn = document.getElementById("toTopBtn");
-
-// 当用户向下滚动20px时，显示按钮
-window.onscroll = function () {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    toTopBtn.style.display = "flex";
-  } else {
-    toTopBtn.style.display = "none";
+  if (cbox) {
+    cbox.addEventListener("change", function () {
+      const area = document.querySelector(".wrapper");
+      if (!area) return;
+      this.checked
+        ? area.classList.add("blurry")
+        : area.classList.remove("blurry");
+    });
   }
-};
 
-toTopBtn.addEventListener('click',function(){
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-})
+  const toggleButton = document.getElementById("toggleButton");
+  const overlay = document.getElementById("overlay");
+  const closeButton = document.getElementById("closeButton");
+
+  if (toggleButton && overlay) {
+    toggleButton.addEventListener("click", function() {
+      overlay.style.display = overlay.style.display === "none" || overlay.style.display === "" ? "flex" : "none";
+      toggleButton.style.display = "none";
+    });
+  }
+
+  if (closeButton && overlay && toggleButton) {
+    closeButton.addEventListener("click", function() {
+      overlay.style.display = "none";
+      toggleButton.style.display = "flex";
+    });
+  }
+
+  const toTopBtn = document.getElementById("toTopBtn");
+  const updateToTopVisibility = () => {
+    if (!toTopBtn) return;
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      toTopBtn.style.display = "flex";
+    } else {
+      toTopBtn.style.display = "none";
+    }
+  };
+
+  if (toTopBtn) {
+    window.addEventListener("scroll", updateToTopVisibility);
+    updateToTopVisibility();
+    toTopBtn.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 
 
 
