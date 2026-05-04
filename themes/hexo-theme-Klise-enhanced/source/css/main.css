@@ -1973,10 +1973,18 @@ body.loaded {
 }
 
 .gallery-meta {
-  margin: 0 0 1rem;
+  margin: 0 0 0.35rem;
   text-align: center;
   color: #6b7886;
   font-size: 0.95rem;
+}
+
+.gallery-copyright {
+  margin: 0 0 1.2rem;
+  text-align: center;
+  color: #7b8794;
+  font-size: 0.78rem;
+  line-height: 1.7;
 }
 
 .gallery-meta code {
@@ -2104,7 +2112,8 @@ body.loaded {
 }
 
 body[data-theme=dark] .gallery-intro,
-body[data-theme=dark] .gallery-meta {
+body[data-theme=dark] .gallery-meta,
+body[data-theme=dark] .gallery-copyright {
   color: #9da6b0;
 }
 

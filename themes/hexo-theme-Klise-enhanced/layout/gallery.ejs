@@ -17,6 +17,9 @@
       <p class="gallery-meta">
         共 <%= images.length %> 张图片
       </p>
+      <p class="gallery-copyright">
+        © <%= new Date().getFullYear() %> <%= config.author || 'kabaka' %>，照片版权归本站作者所有，未经许可请勿转载或商用。
+      </p>
       <section class="gallery-grid" aria-label="<%= page.title %>">
         <% images.forEach(function(image, index) { 
           const imageUrl = url_for(image.url);
