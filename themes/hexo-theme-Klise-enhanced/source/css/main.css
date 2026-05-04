@@ -2074,37 +2074,43 @@ body.loaded {
 
 .gallery-copyright {
   width: fit-content;
-  max-width: min(760px, 100%);
-  margin: 0 auto 1.45rem;
-  padding: 0.72rem 1rem;
+  max-width: min(720px, 100%);
+  margin: 0 auto 1.35rem;
+  padding: 0.5rem 0.78rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
-  border: 1px solid rgba(190, 119, 35, 0.26);
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  border: 1px solid rgba(13, 18, 43, 0.08);
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255, 250, 240, 0.96), rgba(255, 255, 255, 0.82));
-  box-shadow: 0 10px 26px rgba(134, 86, 28, 0.11);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 10px 28px rgba(13, 18, 43, 0.06);
+  backdrop-filter: blur(14px) saturate(1.08);
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
   text-align: center;
-  color: #5f4731;
-  font-size: 0.86rem;
-  font-weight: 600;
+  color: #5d6673;
+  font-size: 0.78rem;
+  font-weight: 500;
   line-height: 1.65;
+  letter-spacing: 0.02em;
 }
 
 .gallery-copyright__label {
   flex: 0 0 auto;
-  padding: 0.2rem 0.55rem;
+  padding: 0.13rem 0.48rem;
+  border: 1px solid rgba(13, 18, 43, 0.08);
   border-radius: 999px;
-  background: #8a5a2b;
-  color: #fffaf1;
-  font-size: 0.72rem;
+  background: rgba(13, 18, 43, 0.04);
+  color: #344052;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
 .gallery-copyright__text {
   display: inline-block;
+  color: inherit;
 }
 
 .gallery-meta code {
@@ -2237,15 +2243,16 @@ body[data-theme=dark] .gallery-meta {
 }
 
 body[data-theme=dark] .gallery-copyright {
-  border-color: rgba(226, 180, 108, 0.3);
-  background: linear-gradient(135deg, rgba(55, 42, 25, 0.92), rgba(24, 26, 34, 0.9));
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
-  color: #f2d7b4;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(19, 20, 26, 0.58);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
+  color: #bfc7d3;
 }
 
 body[data-theme=dark] .gallery-copyright__label {
-  background: #f0bf75;
-  color: #21160b;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.07);
+  color: #eef2f7;
 }
 
 body[data-theme=dark] .gallery-meta code {
@@ -2304,11 +2311,10 @@ body[data-theme=dark] .gallery-empty {
 
   .gallery-copyright {
     width: auto;
-    padding: 0.78rem 0.85rem;
-    flex-direction: column;
-    gap: 0.45rem;
-    border-radius: 18px;
-    font-size: 0.82rem;
+    padding: 0.58rem 0.75rem;
+    gap: 0.35rem;
+    border-radius: 16px;
+    font-size: 0.76rem;
   }
 
   .gallery-empty {
