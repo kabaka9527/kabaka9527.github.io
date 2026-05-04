@@ -21,18 +21,44 @@ const imageCollator = new Intl.Collator("zh-Hans-CN", {
 
 const listGalleryImages = (hexoInstance) => {
   const galleryDir = path.join(hexoInstance.source_dir, "img", "gallery");
+  const galleryWebpDir = path.join(hexoInstance.source_dir, "img", "gallery-webp");
   if (!fs.existsSync(galleryDir)) return [];
 
-  return fs
+  const candidates = new Map();
+
+  const pickCandidate = (candidate) => {
+    const previous = candidates.get(candidate.stem);
+    if (!previous || candidate.priority > previous.priority) {
+      candidates.set(candidate.stem, candidate);
+    }
+  };
+
+  fs
     .readdirSync(galleryDir, { withFileTypes: true })
     .filter((entry) => entry.isFile())
     .map((entry) => entry.name)
     .filter((name) => IMAGE_EXTENSIONS.has(path.extname(name).toLowerCase()))
-    .sort((left, right) => imageCollator.compare(left, right))
-    .map((name) => ({
-      name,
-      stem: path.basename(name, path.extname(name))
-    }));
+    .forEach((name) => {
+      const ext = path.extname(name).toLowerCase();
+      const stem = path.basename(name, ext);
+      const encodedName = encodeURIComponent(name);
+      const webpName = `${stem}.webp`;
+      const webpPath = path.join(galleryWebpDir, webpName);
+      const hasConvertedWebp = fs.existsSync(webpPath);
+      const isWebpSource = ext === ".webp";
+
+      pickCandidate({
+        name,
+        stem,
+        url: hasConvertedWebp
+          ? `/img/gallery-webp/${encodeURIComponent(webpName)}`
+          : `/img/gallery/${encodedName}`,
+        fallbackUrl: `/img/gallery/${encodedName}`,
+        priority: hasConvertedWebp ? 2 : isWebpSource ? 1 : 0
+      });
+    });
+
+  return Array.from(candidates.values()).sort((left, right) => imageCollator.compare(left.name, right.name));
 };
 
 const registerHelper = (hexoInstance) => {

@@ -19,19 +19,24 @@
       </p>
       <section class="gallery-grid" aria-label="<%= page.title %>">
         <% images.forEach(function(image, index) { 
-          const imageUrl = url_for('/img/gallery/' + encodeURIComponent(image.name));
+          const imageUrl = url_for(image.url);
+          const fallbackUrl = url_for(image.fallbackUrl || image.url);
         %>
           <div
             class="gallery-card"
             data-index="<%= index %>"
-            data-src="<%= imageUrl %>"
+            data-src="<%= fallbackUrl %>"
+            data-webp-src="<%= imageUrl %>"
             data-alt="<%= image.stem %>"
             role="button"
             tabindex="0"
             aria-label="查看大图：<%= image.stem %>"
           >
             <span class="gallery-card__index"><%= String(index + 1).padStart(2, '0') %></span>
-            <img class="gallery-card__img" src="<%= imageUrl %>" alt="<%= image.stem %>" loading="lazy" decoding="async">
+            <picture>
+              <source srcset="<%= imageUrl %>" type="image/webp">
+              <img class="gallery-card__img" src="<%= fallbackUrl %>" alt="<%= image.stem %>" loading="lazy" decoding="async">
+            </picture>
             <span class="gallery-card__caption"><%= image.stem %></span>
           </div>
         <% }); %>
@@ -50,7 +55,10 @@
       <button class="gallery-lightbox__close" aria-label="关闭">&times;</button>
       <button class="gallery-lightbox__prev" aria-label="上一张">&#8249;</button>
       <button class="gallery-lightbox__next" aria-label="下一张">&#8250;</button>
-      <img class="gallery-lightbox__img" src="" alt="">
+      <picture class="gallery-lightbox__picture">
+        <source class="gallery-lightbox__source" type="image/webp">
+        <img class="gallery-lightbox__img" src="" alt="">
+      </picture>
       <div class="gallery-lightbox__counter"></div>
     </div>
   </div>
@@ -63,6 +71,7 @@
   if (!lightbox) return;
 
   var lbImg = lightbox.querySelector('.gallery-lightbox__img');
+  var lbSource = lightbox.querySelector('.gallery-lightbox__source');
   var lbCounter = lightbox.querySelector('.gallery-lightbox__counter');
   var btnClose = lightbox.querySelector('.gallery-lightbox__close');
   var btnPrev = lightbox.querySelector('.gallery-lightbox__prev');
@@ -78,7 +87,10 @@
     if (index < 0 || index >= total) return;
     currentIndex = index;
     var card = cards[currentIndex];
-    lbImg.src = card.getAttribute('data-src');
+    var fallbackSrc = card.getAttribute('data-src');
+    var webpSrc = card.getAttribute('data-webp-src');
+    if (lbSource) lbSource.srcset = webpSrc || '';
+    lbImg.src = fallbackSrc;
     lbImg.alt = card.getAttribute('data-alt');
     lbCounter.textContent = (currentIndex + 1) + ' / ' + total;
   }
@@ -95,6 +107,7 @@
     lightbox.classList.remove('is-open');
     document.body.style.overflow = '';
     lbImg.src = '';
+    if (lbSource) lbSource.srcset = '';
   }
 
   /** 切换到上一张 */
