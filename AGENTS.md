@@ -20,8 +20,9 @@ These rules apply to frontend changes in this Hexo blog, especially under `theme
 ### Navigation
 
 - Keep the desktop navigation as a centered sticky glass bar with clear hierarchy.
-- Navigation links should stay compact and readable. Active items may use a small soft capsule highlight, but avoid large button-like shapes.
-- Mobile navigation should remain a top floating glass bar with a hamburger trigger and a clean full-screen overlay menu.
+- Navigation glass should be genuinely translucent: use low-opacity layered backgrounds, `backdrop-filter`, light borders, and inner highlights. Avoid near-opaque milky white bars that hide the wallpaper.
+- Navigation links should stay compact and readable. Active items may use a small translucent capsule highlight, but avoid large button-like shapes or solid white active pills.
+- Mobile navigation should remain a top floating transparent glass bar with a hamburger trigger and a clean full-screen glass overlay menu.
 - Always verify both desktop and mobile navigation after changing header, menu, global link, or layout CSS.
 
 ### Tags And Categories
@@ -79,4 +80,3 @@ These rules apply to frontend changes in this Hexo blog, especially under `theme
   - Mobile width around `390px`.
   - Dark mode if the changed component has custom color/background/border.
 - If using browser automation, clean temporary Playwright artifacts before finishing.
-
