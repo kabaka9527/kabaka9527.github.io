@@ -5,13 +5,16 @@
     
       <main class="page-content" aria-label="Content">
       
-        <div class="categories-grid">
-            <% site.categories.forEach(function(category) { %>
-              <div class="category-item">
-                <a href="<%= url_for(category.path) %>">
-                  <%= category.name %> (<%= category.length %>)
-                </a>
-              </div>
+        <div class="tags-container categories-container">
+            <% site.categories.forEach(function(category, index) { %>
+              <% const categoryColors = ['#c6911b', '#bf6f1c', '#ca2e14']; %>
+              <a
+                class="category-tag"
+                href="<%= url_for(category.path) %>"
+                style="font-size: <%= Math.min(18, 14 + category.length * 2) %>px; color: <%= categoryColors[index % categoryColors.length] %>;"
+              >
+                <%= category.name %> (<%= category.length %>)
+              </a>
             <% }); %>
           </div>
          
