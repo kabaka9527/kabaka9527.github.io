@@ -19,22 +19,32 @@
   const bgImages = window.__BG_IMAGES__ || {};
   const LIGHT_BG_IMAGES = Array.isArray(bgImages.light) ? bgImages.light : [];
   const DARK_BG_IMAGES = Array.isArray(bgImages.dark) ? bgImages.dark : [];
-  const BG_ROTATE_MS = 45000;
+  const BG_ROTATE_MS = 5 * 60 * 1000;
   const BG_STORAGE_KEYS = {
     light: "bg:last:light",
     dark: "bg:last:dark"
   };
 
-  let lightBgIndex = 0;
-  let darkBgIndex = 0;
   let bgTimer = null;
   let autoThemeTimer = null;
+  let backgroundRequestId = 0;
+
+  const getBackgroundList = (theme) => theme === "dark" ? DARK_BG_IMAGES : LIGHT_BG_IMAGES;
+
+  const getBackgroundFallback = (theme) => theme === "dark" ? DEFAULT_DARK_BG : DEFAULT_LIGHT_BG;
+
+  const isKnownBackground = (theme, value) => {
+    if (!value) return false;
+    const list = getBackgroundList(theme);
+    return value === getBackgroundFallback(theme) || list.includes(value);
+  };
 
   const getStoredBackground = (theme) => {
     const key = BG_STORAGE_KEYS[theme];
     if (!key) return null;
     try {
-      return localStorage.getItem(key);
+      const stored = localStorage.getItem(key);
+      return isKnownBackground(theme, stored) ? stored : null;
     } catch (error) {
       return null;
     }
@@ -50,19 +60,31 @@
     }
   };
 
-  const pickStartIndex = (theme, list) => {
-    if (!Array.isArray(list) || list.length === 0) return 0;
-    if (list.length === 1) return 0;
-    const last = getStoredBackground(theme);
-    if (!last) return Math.floor(Math.random() * list.length);
-    const lastIndex = list.indexOf(last);
-    if (lastIndex === -1) return Math.floor(Math.random() * list.length);
-    return (lastIndex + 1) % list.length;
+  const pickInitialBackground = (theme) => {
+    const list = getBackgroundList(theme);
+    const fallback = getBackgroundFallback(theme);
+    if (!Array.isArray(list) || list.length === 0) return fallback;
+    return list[Math.floor(Math.random() * list.length)] || fallback;
   };
 
-  const seedBackgroundIndex = () => {
-    lightBgIndex = pickStartIndex("light", LIGHT_BG_IMAGES);
-    darkBgIndex = pickStartIndex("dark", DARK_BG_IMAGES);
+  const getCurrentBackground = (theme) => {
+    const stored = getStoredBackground(theme);
+    if (stored) return stored;
+    const initial = pickInitialBackground(theme);
+    setStoredBackground(theme, initial);
+    return initial;
+  };
+
+  const getNextBackground = (theme) => {
+    const list = getBackgroundList(theme);
+    const fallback = getBackgroundFallback(theme);
+    if (!Array.isArray(list) || list.length === 0) return fallback;
+    if (list.length === 1) return list[0] || fallback;
+
+    const current = getCurrentBackground(theme);
+    const currentIndex = list.indexOf(current);
+    if (currentIndex === -1) return list[0] || fallback;
+    return list[(currentIndex + 1) % list.length] || fallback;
   };
 
   const getThemeMode = () => (body.getAttribute("data-theme") === "dark" ? "dark" : "light");
@@ -118,37 +140,56 @@
     }
   };
 
-  const getNextBackground = (theme) => {
-    const list = theme === "dark" ? DARK_BG_IMAGES : LIGHT_BG_IMAGES;
-    const fallback = theme === "dark" ? DEFAULT_DARK_BG : DEFAULT_LIGHT_BG;
-    if (!Array.isArray(list) || list.length === 0) return fallback;
-
-    if (theme === "dark") {
-      const image = list[darkBgIndex % list.length];
-      darkBgIndex += 1;
-      return image || fallback;
-    }
-
-    const image = list[lightBgIndex % list.length];
-    lightBgIndex += 1;
-    return image || fallback;
-  };
-
-  const applyBackground = (theme) => {
-    const imageUrl = getNextBackground(theme);
+  const setBackgroundCss = (theme, imageUrl) => {
     const cssVar = theme === "dark" ? "--bg-image-dark" : "--bg-image";
     body.style.setProperty(cssVar, `url("${imageUrl}")`);
-    setStoredBackground(theme, imageUrl);
+  };
+
+  const preloadBackground = (imageUrl) => new Promise((resolve) => {
+    if (!imageUrl) {
+      resolve(false);
+      return;
+    }
+
+    const image = new Image();
+    const finish = (loaded) => resolve(loaded);
+    image.onload = () => finish(true);
+    image.onerror = () => finish(false);
+    image.src = imageUrl;
+    if (image.complete) finish(true);
+  });
+
+  const applyBackground = (theme, options = {}) => {
+    const imageUrl = options.advance ? getNextBackground(theme) : getCurrentBackground(theme);
+    const requestId = ++backgroundRequestId;
+
+    const commit = () => {
+      if (requestId !== backgroundRequestId) return;
+      setBackgroundCss(theme, imageUrl);
+      setStoredBackground(theme, imageUrl);
+    };
+
+    if (options.preload) {
+      preloadBackground(imageUrl).then((loaded) => {
+        if (loaded) commit();
+      });
+      return;
+    }
+
+    commit();
   };
 
   const syncBackgroundToTheme = () => {
     applyBackground(getThemeMode());
   };
 
+  const rotateBackgroundToTheme = () => {
+    applyBackground(getThemeMode(), { advance: true, preload: true });
+  };
+
   const startBackgroundRotation = () => {
-    syncBackgroundToTheme();
     if (bgTimer) window.clearInterval(bgTimer);
-    bgTimer = window.setInterval(syncBackgroundToTheme, BG_ROTATE_MS);
+    bgTimer = window.setInterval(rotateBackgroundToTheme, BG_ROTATE_MS);
   };
 
   const AUTO_START_HOUR = 7;
@@ -209,7 +250,6 @@
     syncThemeControls();
   };
 
-  seedBackgroundIndex();
   requestAnimationFrame(() => {
     initTheme();
     syncThemeControls();
@@ -361,4 +401,3 @@
 
 
 })();
-

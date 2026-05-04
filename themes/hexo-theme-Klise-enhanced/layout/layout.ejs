@@ -33,8 +33,20 @@
           body.removeAttribute("data-theme");
         }
       };
+      const initBackground = () => {
+        const theme = body.getAttribute("data-theme") === "dark" ? "dark" : "light";
+        const key = `bg:last:${theme}`;
+        const cssVar = theme === "dark" ? "--bg-image-dark" : "--bg-image";
+        try {
+          const imageUrl = localStorage.getItem(key);
+          if (imageUrl) body.style.setProperty(cssVar, `url("${imageUrl}")`);
+        } catch (error) {
+          // Ignore storage errors.
+        }
+      };
 
       initTheme(localStorage.getItem("theme"));
+      initBackground();
       
       setTimeout(() => body.classList.remove("notransition"), 75);
     </script>
