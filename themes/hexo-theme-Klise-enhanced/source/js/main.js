@@ -286,11 +286,13 @@
       const who = data.from_who ? ` · ${data.from_who}` : "";
       const sourceText = from || who ? `—— ${from}${who}` : "";
       fromEl.textContent = sourceText;
+      fromEl.title = sourceText;
     };
 
     const typeText = (text, onDone) => {
       let index = 0;
       textEl.textContent = "";
+      textEl.title = text;
 
       const step = () => {
         if (index <= text.length) {
@@ -314,6 +316,7 @@
         .then((data) => {
           if (data && data.hitokoto) {
             fromEl.textContent = "";
+            fromEl.title = "";
             typeText(data.hitokoto, () => {
               renderSource(data);
               cycleTimer = window.setTimeout(fetchHitokoto, HITOKOTO_STAY_MS);

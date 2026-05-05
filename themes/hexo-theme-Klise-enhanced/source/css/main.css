@@ -732,20 +732,34 @@ mark,
 }
 .author .author-hitokoto {
   margin: 0.4rem auto 0;
+  width: min(100%, 420px);
+  height: 4.45rem;
   max-width: 420px;
   font-size: 0.95rem;
   color: #4a4a4a;
   opacity: 0.85;
+  overflow: hidden;
 }
 .author .author-hitokoto .hitokoto-text {
-  display: block;
-  line-height: 1.7;
+  display: -webkit-box;
+  min-height: 3.1em;
+  max-height: 3.1em;
+  line-height: 1.55;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 .author .author-hitokoto .hitokoto-from {
   display: block;
   margin-top: 0.25rem;
+  min-height: 1.25em;
   font-size: 0.85rem;
+  line-height: 1.25;
   color: #5a5f6b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 body[data-theme=dark] .author .author-hitokoto {
   color: #c7bebe;
