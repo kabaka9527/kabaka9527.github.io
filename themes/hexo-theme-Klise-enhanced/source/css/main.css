@@ -754,6 +754,13 @@ mark,
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
+.author .author-hitokoto .hitokoto-text .hitokoto-char {
+  opacity: 0;
+  transition: opacity 0.08s ease;
+}
+.author .author-hitokoto .hitokoto-text .hitokoto-char.is-visible {
+  opacity: 1;
+}
 .author .author-hitokoto .hitokoto-from {
   display: block;
   width: 100%;
