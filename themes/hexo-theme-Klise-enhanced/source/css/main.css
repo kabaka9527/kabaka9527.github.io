@@ -280,7 +280,9 @@ blockquote > :last-child {
 }
 
 .wrapper {
+  width: 100%;
   max-width: calc(720px - 30px * 2);
+  box-sizing: border-box;
   position: relative;
   margin-right: auto;
   margin-left: auto;
@@ -732,9 +734,9 @@ mark,
 }
 .author .author-hitokoto {
   margin: 0.4rem auto 0;
-  width: min(100%, 420px);
+  width: 420px;
   height: 4.45rem;
-  max-width: 420px;
+  max-width: 100%;
   font-size: 0.95rem;
   color: #4a4a4a;
   opacity: 0.85;
@@ -742,9 +744,11 @@ mark,
 }
 .author .author-hitokoto .hitokoto-text {
   display: -webkit-box;
+  width: 100%;
   min-height: 3.1em;
   max-height: 3.1em;
   line-height: 1.55;
+  text-align: center;
   overflow: hidden;
   overflow-wrap: anywhere;
   -webkit-box-orient: vertical;
@@ -752,10 +756,12 @@ mark,
 }
 .author .author-hitokoto .hitokoto-from {
   display: block;
+  width: 100%;
   margin-top: 0.25rem;
   min-height: 1.25em;
   font-size: 0.85rem;
   line-height: 1.25;
+  text-align: center;
   color: #5a5f6b;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -269,7 +269,6 @@
 
   const HITOKOTO_TYPES = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
   const HITOKOTO_ENDPOINT = `https://v1.hitokoto.cn/?encode=json&${HITOKOTO_TYPES.map((type) => `c=${type}`).join("&")}`;
-  const HITOKOTO_TYPE_SPEED_MS = 240;
   const HITOKOTO_STAY_MS = 6000;
 
   const initHitokoto = () => {
@@ -278,7 +277,6 @@
     if (!textEl || !fromEl) return;
 
     let isLoading = false;
-    let typingTimer = null;
     let cycleTimer = null;
 
     const renderSource = (data) => {
@@ -289,22 +287,9 @@
       fromEl.title = sourceText;
     };
 
-    const typeText = (text, onDone) => {
-      let index = 0;
-      textEl.textContent = "";
+    const renderText = (text) => {
+      textEl.textContent = text;
       textEl.title = text;
-
-      const step = () => {
-        if (index <= text.length) {
-          textEl.textContent = text.slice(0, index);
-          index += 1;
-          typingTimer = window.setTimeout(step, HITOKOTO_TYPE_SPEED_MS);
-        } else if (typeof onDone === "function") {
-          onDone();
-        }
-      };
-
-      step();
     };
 
     const fetchHitokoto = () => {
@@ -317,10 +302,9 @@
           if (data && data.hitokoto) {
             fromEl.textContent = "";
             fromEl.title = "";
-            typeText(data.hitokoto, () => {
-              renderSource(data);
-              cycleTimer = window.setTimeout(fetchHitokoto, HITOKOTO_STAY_MS);
-            });
+            renderText(data.hitokoto);
+            renderSource(data);
+            cycleTimer = window.setTimeout(fetchHitokoto, HITOKOTO_STAY_MS);
             return;
           }
           cycleTimer = window.setTimeout(fetchHitokoto, HITOKOTO_STAY_MS);
@@ -338,7 +322,6 @@
     fetchHitokoto();
 
     window.addEventListener("beforeunload", () => {
-      if (typingTimer) window.clearTimeout(typingTimer);
       if (cycleTimer) window.clearTimeout(cycleTimer);
     });
   };
