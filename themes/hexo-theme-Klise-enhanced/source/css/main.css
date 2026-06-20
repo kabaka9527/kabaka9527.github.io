@@ -2673,3 +2673,29 @@ body[data-theme=dark] .gallery-empty {
   }
 }
 /*----------------------------------以上相册墙----------------------------*/
+
+/* ===== Mermaid 图表样式 ===== */
+.mermaid {
+  text-align: center;
+  margin: 1.5em auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 暗色模式适配 */
+body[data-theme=dark] .mermaid svg {
+  filter: brightness(0.95);
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 768px) {
+  .mermaid {
+    margin: 1em auto;
+  }
+}
+/* ===== Mermaid 图表样式结束 ===== */

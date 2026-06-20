@@ -56,3 +56,4 @@ stylesheets:
 # scripts loaded in the end of the body
 scripts:
 - /js/main.js
+- /js/mermaid-init.js
