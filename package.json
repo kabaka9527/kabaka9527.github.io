@@ -11,17 +11,6 @@
   "hexo": {
     "version": "7.3.0"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "gifsicle",
-      "hexo-util",
-      "jpegtran-bin",
-      "mozjpeg",
-      "optipng-bin",
-      "pngquant-bin",
-      "sharp"
-    ]
-  },
   "dependencies": {
     "gifsicle": "^7.0.1",
     "hexo": "^7.3.0",

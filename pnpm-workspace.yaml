@@ -1,6 +1,8 @@
 onlyBuiltDependencies:
   - gifsicle
+  - hexo-util
   - jpegtran-bin
   - mozjpeg
   - optipng-bin
   - pngquant-bin
+  - sharp
