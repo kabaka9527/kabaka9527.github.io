@@ -13,7 +13,7 @@
   var DEFAULT_CONFIG = {
     startOnLoad: false,
     securityLevel: 'loose',
-    fontFamily: '"KingHwa_OldSong", "LXGW Neo ZhiSong", "Microsoft YaHei", sans-serif'
+    fontFamily: '"Noto Sans CJK SC", "Source Han Sans SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
   }
 
   /**
