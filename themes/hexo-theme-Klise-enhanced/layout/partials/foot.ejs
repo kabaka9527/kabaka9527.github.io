@@ -1,31 +1,42 @@
 <footer class="footer">
   <style>
+    /* 底部自定义信息区：统一行高与外边距，建立协调的字号层级 */
     .footer-custom {
       text-align: center;
       position: relative;
     }
     .footer-custom p {
-      margin: 0.5rem 0;
-      line-height: 1.6;
+      margin: 0.35rem 0;
+      line-height: 1.7;
     }
+    /* 主版权行：作为首层信息，字号略大且加重 */
     .footer-custom .copyright {
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       color: #333333;
       font-weight: 600;
+      letter-spacing: 0.02em;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
     .footer-custom .tagline {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #4a4a4a;
       font-style: italic;
       font-weight: 700;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
-    .footer-custom .visitor-count,
-    .footer-custom .icp-info {
-      font-size: 0.8rem;
+    /* 访问统计行：作为次层信息，字号收敛，保持轻盈 */
+    .footer-custom .visitor-count {
+      font-size: 0.82rem;
       color: #555555;
       font-weight: 500;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    /* 备案信息：作为最末辅助信息，字号最小 */
+    .footer-custom .icp-info {
+      font-size: 0.75rem;
+      color: #666666;
+      font-weight: 500;
+      margin-top: 0.5rem;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
     .footer-custom .icp-info a {
@@ -38,12 +49,53 @@
       color: #007bff;
       text-decoration: underline;
     }
+    /* 数字部分：略加粗但颜色更柔和，避免绿色过于突兀 */
+    .footer-custom .visitor-count span,
     #totalVisitors,
     #totalPageViews,
     #dailyVisitor {
-      font-weight: bold;
-      color: #28a745;
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+      font-weight: 600;
+      color: #2e7d4f;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    }
+    /* 暗色模式：保持柔和可读，不使用纯黑与霓虹色 */
+    body[data-theme="dark"] .footer-custom .copyright {
+      color: #e8e6e3;
+    }
+    body[data-theme="dark"] .footer-custom .tagline,
+    body[data-theme="dark"] .footer-custom .visitor-count {
+      color: #b8b0a8;
+    }
+    body[data-theme="dark"] .footer-custom .icp-info {
+      color: #9a928a;
+    }
+    body[data-theme="dark"] .footer-custom .icp-info a {
+      color: #7eb6ff;
+    }
+    body[data-theme="dark"] .footer-custom .icp-info a:hover {
+      color: #a8caff;
+    }
+    body[data-theme="dark"] .footer-custom .visitor-count span,
+    body[data-theme="dark"] #totalVisitors,
+    body[data-theme="dark"] #totalPageViews,
+    body[data-theme="dark"] #dailyVisitor {
+      color: #8ec8a5;
+    }
+    /* 移动端：整体字号略缩，间距收紧 */
+    @media screen and (max-width: 768px) {
+      .footer-custom .copyright {
+        font-size: 0.88rem;
+      }
+      .footer-custom .visitor-count {
+        font-size: 0.76rem;
+      }
+      .footer-custom .icp-info {
+        font-size: 0.7rem;
+      }
+      .footer-custom p {
+        margin: 0.3rem 0;
+        line-height: 1.65;
+      }
     }
   </style>
 
